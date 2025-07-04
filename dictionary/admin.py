@@ -41,6 +41,7 @@ class WordAdmin(ImportExportModelAdmin):
 
 @admin.register(Translation)
 class TranslationAdmin(ImportExportModelAdmin):
+    autocomplete_fields = ['from_word', 'to_word']
     resource_class = TranslationResource
     list_display = ('from_word', 'to_word', 'quality')
 
