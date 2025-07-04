@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'import_export',
     'dictionary',
     'phrasebook',
-    'grammar'
+    'grammar',
+    'drf_spectacular'
 ]
 
 MIDDLEWARE = [
@@ -73,6 +74,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'api.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Аварский словарь API',
+    'DESCRIPTION': 'REST API для работы со словарём, разговорником и грамматикой аварского языка',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
