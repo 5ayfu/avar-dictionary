@@ -36,14 +36,17 @@ class LanguageAdmin(ImportExportModelAdmin):
 @admin.register(Word)
 class WordAdmin(ImportExportModelAdmin):
     resource_class = WordResource
-    search_fields = ('text',)
+    search_fields = ('text', 'alternative_spelling', 'transcription')
     list_display = ('text', 'language', 'part_of_speech', 'transcription')
+    list_filter = ('language', 'part_of_speech')
 
 @admin.register(Translation)
 class TranslationAdmin(ImportExportModelAdmin):
     autocomplete_fields = ['from_word', 'to_word']
     resource_class = TranslationResource
     list_display = ('from_word', 'to_word', 'quality')
+    search_fields = ('from_word__text', 'to_word__text')
+    list_filter = ('from_word__language', 'to_word__language', 'quality')
 
 @admin.register(Example)
 class ExampleAdmin(ImportExportModelAdmin):
