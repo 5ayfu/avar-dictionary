@@ -1,0 +1,32 @@
+{% load static %}
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Avaro-English{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <button class="btn-menu" aria-label="Toggle menu">☰</button>
+    <a href="{% url 'home' %}" class="logo">Avaro-English</a>
+    <div class="lang-switcher">
+      <button class="btn-lang">Language ▾</button>
+      <ul class="lang-list">
+        <li><a href="?lang=av_lat">Avar (Latin)</a></li>
+        <li><a href="?lang=av_cyr">Avar (Cyrillic)</a></li>
+        <li><a href="?lang=en">English</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <p>© {% now "Y" %} Avaro-English</p>
+    <a href="{% url 'contact' %}">Связаться с нами</a>
+  </footer>
+</body>
+</html>
