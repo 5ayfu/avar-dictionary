@@ -1,35 +1,50 @@
 /* Общие сбросы */
+:root {
+  --primary: #1E3A8A;
+  --accent: #0EA5E9;
+  --text-color: #111827;
+}
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 body {
-  font-family: sans-serif;
+  font-family: system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif;
   background: #FAFAFA;
   color: #111827;
   line-height: 1.5;
 }
 
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
 /* Хедер */
 .site-header {
+  background: var(--primary);
+  color: #fff;
+}
+.site-header .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #1E3A8A;
   padding: 12px 16px;
-  color: white;
 }
 .logo {
   font-size: 1.25rem;
   text-decoration: none;
-  color: white;
+  color: #fff;
 }
-.btn-menu, .btn-lang {
+.btn-menu,
+.btn-lang {
   background: none;
   border: none;
-  color: white;
+  color: #fff;
   font-size: 1.25rem;
+  cursor: pointer;
 }
 .lang-switcher {
   position: relative;
@@ -39,18 +54,19 @@ body {
   position: absolute;
   right: 0;
   top: 100%;
-  background: white;
+  background: #fff;
   list-style: none;
   border: 1px solid #ddd;
+  z-index: 10;
 }
-.lang-switcher:hover .lang-list {
+.lang-switcher.active .lang-list {
   display: block;
 }
 .lang-list li a {
   display: block;
   padding: 8px 12px;
   text-decoration: none;
-  color: #111827;
+  color: var(--text-color);
 }
 .lang-list li a:hover {
   background: #f0f0f0;
@@ -58,7 +74,7 @@ body {
 
 /* Главная секция */
 .hero {
-  padding: 24px 16px;
+  padding: 24px 0;
 }
 .hero-title {
   font-size: 1.5rem;
@@ -69,17 +85,17 @@ body {
 /* Карточки */
 .card-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 12px;
   margin-bottom: 24px;
 }
 .card {
-  background: white;
+  background: #fff;
   border-radius: 8px;
   padding: 12px;
   text-align: center;
   text-decoration: none;
-  color: #111827;
+  color: var(--text-color);
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 .card-icon {
@@ -103,10 +119,10 @@ body {
 }
 .search-btn {
   padding: 8px 16px;
-  background: #0EA5E9;
+  background: var(--accent);
   border: none;
   border-radius: 0 4px 4px 0;
-  color: white;
+  color: #fff;
   font-weight: 600;
 }
 
@@ -128,6 +144,21 @@ body {
   font-size: 0.875rem;
 }
 .site-footer a {
-  color: #0EA5E9;
+  color: var(--accent);
   text-decoration: none;
+}
+
+@media (min-width: 600px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .card-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .hero-title {
+    font-size: 2rem;
+  }
 }
