@@ -4,23 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Avaro-English{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'website/css/styles.css' %}">
 </head>
 <body>
   <header class="site-header">
-    <button class="btn-menu" aria-label="Toggle menu">☰</button>
-    <a href="{% url 'home' %}" class="logo">Avaro-English</a>
-    <div class="lang-switcher">
-      <button class="btn-lang">Language ▾</button>
-      <ul class="lang-list">
-        <li><a href="?lang=av_lat">Avar (Latin)</a></li>
-        <li><a href="?lang=av_cyr">Avar (Cyrillic)</a></li>
-        <li><a href="?lang=en">English</a></li>
-      </ul>
+    <div class="container header-inner">
+      <button class="btn-menu" aria-label="Toggle menu">☰</button>
+      <a href="{% url 'home' %}" class="logo">Avaro-English</a>
+      <div class="lang-switcher">
+        <button class="btn-lang" type="button">Language ▾</button>
+        <ul class="lang-list">
+          <li><a href="?lang=av_lat">Avar (Latin)</a></li>
+          <li><a href="?lang=av_cyr">Avar (Cyrillic)</a></li>
+          <li><a href="?lang=en">English</a></li>
+        </ul>
+      </div>
     </div>
   </header>
 
-  <main>
+  <main class="container">
     {% block content %}{% endblock %}
   </main>
 
@@ -28,5 +30,6 @@
     <p>© {% now "Y" %} Avaro-English</p>
     <a href="{% url 'contact' %}">Связаться с нами</a>
   </footer>
+  <script src="{% static 'website/js/base.js' %}"></script>
 </body>
 </html>
