@@ -42,11 +42,19 @@ function fetchWordDetails(id) {
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('searchForm');
+    const input = document.getElementById('searchInput');
     if (form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             searchWord();
         });
+    }
+    if (input) {
+        input.addEventListener('input', () => {
+            fetchWords(input.value.trim());
+        });
+        // initial list when page loads
+        fetchWords('');
     }
     document.getElementById('results').addEventListener('click', (e) => {
         if (e.target.tagName === 'LI') {
