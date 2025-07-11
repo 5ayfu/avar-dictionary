@@ -1,6 +1,18 @@
 {% extends "website/base.html" %}
+{% load static %}
 {% block title %}Dictionary – Avaro-English{% endblock %}
 {% block content %}
-<h1>Dictionary</h1>
-<p>Эта страница словаря будет реализована позже.</p>
+<section class="dictionary-page">
+  <h1 class="page-title">Dictionary</h1>
+  <form id="searchForm" class="search-section" onsubmit="return false;">
+    <input type="search" id="searchInput" class="search-input" placeholder="Search..." required>
+    <button type="submit" class="search-btn">Search</button>
+  </form>
+  <div id="results"></div>
+  <div id="wordDetails" class="word-details"></div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'website/js/search.js' %}"></script>
+<script src="{% static 'website/js/dictionary.js' %}"></script>
 {% endblock %}
