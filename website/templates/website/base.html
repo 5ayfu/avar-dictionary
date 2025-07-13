@@ -13,6 +13,13 @@
     <div class="container header-inner">
       <button class="btn-menu" aria-label="Toggle menu">☰</button>
       <a href="{% url 'home' %}" class="logo">Avaro-English</a>
+      <nav class="site-nav">
+        <a href="{% url 'dictionary' %}">Dictionary</a>
+        <a href="{% url 'phrasebook' %}">Phrasebook</a>
+        <a href="{% url 'grammar' %}">Grammar</a>
+        <a href="{% url 'names' %}">Names</a>
+        <a href="{% url 'about' %}">About</a>
+      </nav>
       <div class="lang-switcher">
         <button class="btn-lang" type="button">Language ▾</button>
         <ul class="lang-list">
