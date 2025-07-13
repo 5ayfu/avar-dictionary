@@ -25,5 +25,10 @@ document.addEventListener('DOMContentLoaded', function() {
         nav.classList.remove('open');
       }
     });
+    nav.addEventListener('click', function(e) {
+      if (e.target.tagName === 'A') {
+        nav.classList.remove('open');
+      }
+    });
   }
 });
