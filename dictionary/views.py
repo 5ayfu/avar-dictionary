@@ -1,59 +1,49 @@
-from rest_framework import viewsets, generics, filters, mixins
+from rest_framework import viewsets, filters
 from rest_framework.response import Response
-from rest_framework.decorators import action, api_view
+from rest_framework.decorators import api_view
+from django.db.models import Q
+
+from api.mixins import QueryParamsFilterMixin
 from .models import Language, Word, Translation, Example, Synonym
 from .serializers import (
-    LanguageSerializer, WordSerializer, WordShortSerializer,
-    TranslationSerializer, ExampleSerializer, SynonymSerializer
+    LanguageSerializer,
+    WordSerializer,
+    WordShortSerializer,
+    TranslationSerializer,
+    ExampleSerializer,
+    SynonymSerializer,
 )
-from django.db.models import Q
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
     pagination_class = None
 
-class WordViewSet(viewsets.ReadOnlyModelViewSet):
+class WordViewSet(QueryParamsFilterMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Word.objects.all().select_related('language', 'lemma').prefetch_related('translations_from', 'examples', 'synonyms1', 'synonyms2')
     serializer_class = WordSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['text', 'transcription', 'alternative_spelling', 'description']
     ordering_fields = ['text', 'created_at']
 
-    def get_queryset(self):
-        qs = super().get_queryset()
-        lang = self.request.query_params.get('language')
-        part = self.request.query_params.get('part_of_speech')
-        if lang:
-            qs = qs.filter(language__code=lang)
-        if part:
-            qs = qs.filter(part_of_speech=part)
-        return qs
+    query_params_map = {
+        "language": "language__code",
+        "part_of_speech": "part_of_speech",
+    }
 
-class TranslationViewSet(viewsets.ReadOnlyModelViewSet):
+class TranslationViewSet(QueryParamsFilterMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Translation.objects.select_related('from_word', 'to_word', 'from_word__language', 'to_word__language').all()
     serializer_class = TranslationSerializer
 
-    def get_queryset(self):
-        qs = super().get_queryset()
-        from_word = self.request.query_params.get('from_word_id')
-        to_word = self.request.query_params.get('to_word_id')
-        if from_word:
-            qs = qs.filter(from_word_id=from_word)
-        if to_word:
-            qs = qs.filter(to_word_id=to_word)
-        return qs
+    query_params_map = {
+        "from_word_id": "from_word_id",
+        "to_word_id": "to_word_id",
+    }
 
-class ExampleViewSet(viewsets.ReadOnlyModelViewSet):
+class ExampleViewSet(QueryParamsFilterMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Example.objects.select_related('word').all()
     serializer_class = ExampleSerializer
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        word_id = self.request.query_params.get('word_id')
-        if word_id:
-            qs = qs.filter(word_id=word_id)
-        return qs
+    query_params_map = {"word_id": "word_id"}
 
 class SynonymViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Synonym.objects.select_related('word1', 'word2').all()
