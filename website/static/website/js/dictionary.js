@@ -43,18 +43,48 @@ function fetchWordDetails(id) {
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('searchForm');
     const input = document.getElementById('searchInput');
+    const toggle = document.getElementById('directionToggle');
+    let fromLang = 'av';
+    let toLang = 'en';
+    if (toggle) {
+        toggle.textContent = `${fromLang}→${toLang}`;
+        toggle.addEventListener('click', () => {
+            [fromLang, toLang] = [toLang, fromLang];
+            toggle.textContent = `${fromLang}→${toLang}`;
+        });
+    }
+
+    async function quickTranslate(word) {
+        if (!word) {
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('wordDetails').innerHTML = '';
+            return;
+        }
+        const url = `/api/dictionary/translate/?word=${encodeURIComponent(word)}&from=${fromLang}&to=${toLang}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        const results = document.getElementById('results');
+        results.innerHTML = '';
+        if (!data.length) {
+            results.textContent = 'No translations';
+            return;
+        }
+        const list = document.createElement('ul');
+        list.className = 'results-list';
+        data.forEach(t => {
+            const li = document.createElement('li');
+            li.textContent = t.to_word.text + ' - ' + t.to_word.language.code;
+            li.dataset.id = t.to_word.id;
+            list.appendChild(li);
+        });
+        results.appendChild(list);
+    }
+
     if (form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            searchWord();
+            quickTranslate(input.value.trim());
         });
-    }
-    if (input) {
-        input.addEventListener('input', () => {
-            fetchWords(input.value.trim());
-        });
-        // initial list when page loads
-        fetchWords('');
     }
     document.getElementById('results').addEventListener('click', (e) => {
         if (e.target.tagName === 'LI') {

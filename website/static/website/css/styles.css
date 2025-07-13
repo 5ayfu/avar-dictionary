@@ -32,6 +32,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
+  position: relative;
 }
 .logo {
   font-size: 1.25rem;
@@ -45,6 +46,25 @@ body {
   color: #fff;
   font-size: 1.25rem;
   cursor: pointer;
+}
+.site-nav {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--primary);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  padding: 8px 16px;
+}
+.site-nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 4px 0;
+}
+.site-nav.open {
+  display: flex;
 }
 .lang-switcher {
   position: relative;
@@ -130,6 +150,10 @@ body {
   color: #fff;
   font-weight: 600;
 }
+.direction-btn {
+  border-radius: 0;
+  margin: 0 4px;
+}
 
 /* Dictionary page */
 .results-list {
@@ -174,6 +198,15 @@ body {
 @media (min-width: 600px) {
   .card-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .site-nav {
+    display: flex !important;
+    position: static;
+    flex-direction: row;
+    gap: 16px;
+  }
+  .btn-menu {
+    display: none;
   }
 }
 
