@@ -12,4 +12,23 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
+
+  const menuBtn = document.querySelector('.btn-menu');
+  const nav = document.querySelector('.site-nav');
+  if (menuBtn && nav) {
+    menuBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      nav.classList.toggle('open');
+    });
+    document.addEventListener('click', function(e) {
+      if (!nav.contains(e.target) && e.target !== menuBtn) {
+        nav.classList.remove('open');
+      }
+    });
+    nav.addEventListener('click', function(e) {
+      if (e.target.tagName === 'A') {
+        nav.classList.remove('open');
+      }
+    });
+  }
 });
