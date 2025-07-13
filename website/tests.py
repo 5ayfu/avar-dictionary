@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from .models import ProjectInfo
 
 
 class StaticPagesTests(TestCase):
@@ -23,3 +24,10 @@ class StaticPagesTests(TestCase):
         response = self.client.get(reverse('home'))
         self.assertIn('active_visitors', response.context)
         self.assertIn('unique_visitors_today', response.context)
+
+
+class AboutPageTests(TestCase):
+    def test_about_page_shows_project_info(self):
+        info = ProjectInfo.objects.create(content='Test project info')
+        response = self.client.get(reverse('about'))
+        self.assertContains(response, 'Test project info')
