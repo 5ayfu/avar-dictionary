@@ -45,16 +45,13 @@ class ExampleViewSet(QueryParamsFilterMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = ExampleSerializer
     query_params_map = {"word_id": "word_id"}
 
-class SynonymViewSet(viewsets.ReadOnlyModelViewSet):
+class SynonymViewSet(QueryParamsFilterMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Synonym.objects.select_related('word1', 'word2').all()
     serializer_class = SynonymSerializer
 
-    def get_queryset(self):
-        qs = super().get_queryset()
-        word_id = self.request.query_params.get('word_id')
-        if word_id:
-            qs = qs.filter(Q(word1_id=word_id) | Q(word2_id=word_id))
-        return qs
+    query_params_map = {
+        "word_id": lambda qs, value: qs.filter(Q(word1_id=value) | Q(word2_id=value)),
+    }
 
 # Поиск по слову с фильтрами
 @api_view(['GET'])
