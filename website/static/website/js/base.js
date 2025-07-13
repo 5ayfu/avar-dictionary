@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+function initMenu() {
   const switcher = document.querySelector('.lang-switcher');
   if (switcher) {
     const btn = switcher.querySelector('.btn-lang');
@@ -26,4 +26,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initMenu);
+} else {
+  initMenu();
+}
