@@ -1,8 +1,8 @@
-from django.test import SimpleTestCase
+from django.test import TestCase
 from django.urls import reverse
 
 
-class StaticPagesTests(SimpleTestCase):
+class StaticPagesTests(TestCase):
     def test_pages_accessible(self):
         pages = [
             reverse('home'),
@@ -18,3 +18,8 @@ class StaticPagesTests(SimpleTestCase):
             with self.subTest(url=url):
                 response = self.client.get(url)
                 self.assertEqual(response.status_code, 200)
+
+    def test_visitor_context(self):
+        response = self.client.get(reverse('home'))
+        self.assertIn('active_visitors', response.context)
+        self.assertIn('unique_visitors_today', response.context)

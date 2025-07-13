@@ -182,6 +182,14 @@ body {
   gap: 12px;
 }
 
+/* Visitor statistics */
+.visitor-stats {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #555;
+}
+
 /* Футер */
 .site-footer {
   padding: 16px;
