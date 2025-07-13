@@ -1,13 +1,13 @@
 from django.urls import path
-from . import views
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
-    path('', views.index, name='home'),
-    path('dictionary/', views.dictionary, name='dictionary'),
-    path('phrasebook/', views.phrasebook, name='phrasebook'),
-    path('grammar/', views.grammar, name='grammar'),
-    path('names/', views.names, name='names'),
-    path('about/', views.about, name='about'),
-    path('contact/', views.contact, name='contact'),
+    path('', TemplateView.as_view(template_name='website/index.html'), name='home'),
+    path('dictionary/', TemplateView.as_view(template_name='website/dictionary.html'), name='dictionary'),
+    path('phrasebook/', TemplateView.as_view(template_name='website/phrasebook.html'), name='phrasebook'),
+    path('grammar/', TemplateView.as_view(template_name='website/grammar.html'), name='grammar'),
+    path('names/', TemplateView.as_view(template_name='website/names.html'), name='names'),
+    path('about/', TemplateView.as_view(template_name='website/about.html'), name='about'),
+    path('contact/', TemplateView.as_view(template_name='website/contact.html'), name='contact'),
 ]
