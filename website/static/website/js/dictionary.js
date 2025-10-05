@@ -44,28 +44,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('searchForm');
     const input = document.getElementById('searchInput');
     const toggle = document.getElementById('directionToggle');
+    const results = document.getElementById('results');
+    const details = document.getElementById('wordDetails');
     let fromLang = 'av';
     let toLang = 'en';
     if (toggle) {
         toggle.textContent = `${fromLang}→${toLang}`;
-        toggle.addEventListener('click', () => {
-            [fromLang, toLang] = [toLang, fromLang];
-            toggle.textContent = `${fromLang}→${toLang}`;
-        });
     }
 
     async function quickTranslate(word) {
         if (!word) {
-            document.getElementById('results').innerHTML = '';
-            document.getElementById('wordDetails').innerHTML = '';
+            if (results) {
+                results.innerHTML = '';
+            }
+            if (details) {
+                details.innerHTML = '';
+            }
             return;
         }
         const url = `/api/dictionary/translate/?word=${encodeURIComponent(word)}&from=${fromLang}&to=${toLang}`;
         const res = await fetch(url);
         const data = await res.json();
-        const results = document.getElementById('results');
+        if (!results) {
+            return;
+        }
         results.innerHTML = '';
-        if (!data.length) {
+        if (!Array.isArray(data) || !data.length) {
             results.textContent = 'No translations';
             return;
         }
@@ -80,15 +84,44 @@ document.addEventListener('DOMContentLoaded', () => {
         results.appendChild(list);
     }
 
+    if (toggle) {
+        toggle.addEventListener('click', () => {
+            [fromLang, toLang] = [toLang, fromLang];
+            toggle.textContent = `${fromLang}→${toLang}`;
+            if (input) {
+                quickTranslate(input.value.trim());
+            }
+        });
+    }
+
+    const triggerSearch = () => {
+        if (input) {
+            quickTranslate(input.value.trim());
+        }
+    };
+
     if (form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            quickTranslate(input.value.trim());
+            triggerSearch();
         });
     }
-    document.getElementById('results').addEventListener('click', (e) => {
-        if (e.target.tagName === 'LI') {
-            fetchWordDetails(e.target.dataset.id);
-        }
-    });
+
+    if (input) {
+        input.addEventListener('input', triggerSearch);
+    }
+
+    if (results) {
+        results.addEventListener('click', (e) => {
+            if (e.target.tagName === 'LI') {
+                fetchWordDetails(e.target.dataset.id);
+            }
+        });
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    if (input && params.has('q')) {
+        input.value = params.get('q');
+        triggerSearch();
+    }
 });
