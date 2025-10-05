@@ -20,11 +20,16 @@ The goal is to provide an easily accessible reference for learners and researche
 
 ## Quick start with Docker
 
-```bash
-docker-compose up --build
-```
+1. Copy the example environment file and adjust the values if needed:
+   ```bash
+   cp .env.example .env
+   ```
+2. Build the containers and start the stack:
+   ```bash
+   docker compose up --build
+   ```
 
-The Docker configuration uses PostgreSQL by default. Environment variables can be set in the `.env` file (see `.env.example`). After building the containers the application will be available at `http://localhost:8000/`.
+The Docker configuration uses PostgreSQL by default. The application will be available at `http://localhost:8000/` once the migrations finish.
 
 ## Local installation
 
