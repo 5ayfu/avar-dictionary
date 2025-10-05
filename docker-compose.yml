@@ -29,10 +29,9 @@ services:
         condition: service_healthy
     volumes:
       - .:/app
-      - static_data:/app/staticfiles
+      - /var/www/avar/static:/app/staticfiles
     ports:
       - "8000:8000"
 
 volumes:
   postgres_data:
-  static_data:
