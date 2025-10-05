@@ -179,7 +179,8 @@ body {
 }
 
 /* Phrasebook */
-.phrasebook-section {
+.phrasebook-section,
+.names-section {
   background: #fff;
   border-radius: 8px;
   padding: 16px;
@@ -187,59 +188,103 @@ body {
   margin-bottom: 16px;
 }
 
-.phrasebook-section__title {
+.phrasebook-section__title,
+.names-section__title {
   font-size: 1.25rem;
   margin-bottom: 12px;
 }
 
-.phrasebook-table {
+.phrasebook-table,
+.names-table {
   width: 100%;
   border-collapse: collapse;
 }
 
 .phrasebook-table th,
-.phrasebook-table td {
+.phrasebook-table td,
+.names-table th,
+.names-table td {
   border-bottom: 1px solid #e5e7eb;
   padding: 8px 12px;
   text-align: left;
   vertical-align: top;
 }
 
-.phrasebook-table th {
+.phrasebook-table th,
+.names-table th {
   font-weight: 600;
   color: #1f2937;
   background: #f9fafb;
 }
 
 .phrasebook-table tr:last-child th,
-.phrasebook-table tr:last-child td {
+.phrasebook-table tr:last-child td,
+.names-table tr:last-child th,
+.names-table tr:last-child td {
   border-bottom: none;
 }
 
-.phrasebook-empty {
+.phrasebook-empty,
+.names-empty {
   margin: 12px 0 0;
   color: #6b7280;
 }
 
+.names-section__description {
+  margin-bottom: 12px;
+  color: #4b5563;
+}
+
+.names-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #111827;
+  background: #e5e7eb;
+}
+
+.names-badge--male {
+  background: rgba(14, 165, 233, 0.2);
+  color: #0369a1;
+}
+
+.names-badge--female {
+  background: rgba(236, 72, 153, 0.2);
+  color: #be185d;
+}
+
+.names-badge--unisex {
+  background: rgba(16, 185, 129, 0.2);
+  color: #047857;
+}
+
 @media (max-width: 640px) {
-  .phrasebook-table thead {
+  .phrasebook-table thead,
+  .names-table thead {
     display: none;
   }
 
-  .phrasebook-table tr {
+  .phrasebook-table tr,
+  .names-table tr {
     display: block;
     border-bottom: 1px solid #e5e7eb;
     margin-bottom: 12px;
   }
 
-  .phrasebook-table td {
+  .phrasebook-table td,
+  .names-table td {
     display: grid;
     grid-template-columns: 120px auto;
     padding: 8px 0;
     border-bottom: none;
   }
 
-  .phrasebook-table td::before {
+  .phrasebook-table td::before,
+  .names-table td::before {
     content: attr(data-label);
     font-weight: 600;
     color: #4b5563;

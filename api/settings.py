@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'import_export',
     'dictionary',
     'phrasebook',
+    'names',
     'grammar',
     'drf_spectacular',
     'website',

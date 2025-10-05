@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from phrasebook.models import PhrasebookPhrase, PhrasebookSection
+from names.models import AvarName, NameCategory
 
 from .models import ProjectInfo
 
@@ -53,3 +54,25 @@ class PhrasebookPageTests(TestCase):
         self.assertContains(response, 'Салам алейкум')
         self.assertContains(response, 'Здравствуйте')
         self.assertContains(response, 'salam aleikum')
+
+
+class NamesPageTests(TestCase):
+    def test_names_page_lists_categories_and_names(self):
+        category = NameCategory.objects.create(name='Женские имена', description='Традиционные женские имена.')
+        AvarName.objects.create(
+            category=category,
+            name='Патимат',
+            translation='Fatimat',
+            gender=AvarName.Gender.FEMALE,
+            translit='Patimat',
+            notes='Популярное женское имя.',
+        )
+
+        response = self.client.get(reverse('names'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('categories', response.context)
+        self.assertContains(response, 'Женские имена')
+        self.assertContains(response, 'Патимат')
+        self.assertContains(response, 'Fatimat')
+        self.assertContains(response, 'Patimat')
