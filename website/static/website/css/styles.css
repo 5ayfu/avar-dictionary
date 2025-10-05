@@ -107,6 +107,11 @@ body {
   margin: 16px 0;
 }
 
+.page-intro {
+  margin-bottom: 16px;
+  color: #374151;
+}
+
 /* Карточки */
 .card-grid {
   display: grid;
@@ -171,6 +176,75 @@ body {
 }
 .word-details {
   margin-top: 24px;
+}
+
+/* Phrasebook */
+.phrasebook-section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
+}
+
+.phrasebook-section__title {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+}
+
+.phrasebook-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.phrasebook-table th,
+.phrasebook-table td {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.phrasebook-table th {
+  font-weight: 600;
+  color: #1f2937;
+  background: #f9fafb;
+}
+
+.phrasebook-table tr:last-child th,
+.phrasebook-table tr:last-child td {
+  border-bottom: none;
+}
+
+.phrasebook-empty {
+  margin: 12px 0 0;
+  color: #6b7280;
+}
+
+@media (max-width: 640px) {
+  .phrasebook-table thead {
+    display: none;
+  }
+
+  .phrasebook-table tr {
+    display: block;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 12px;
+  }
+
+  .phrasebook-table td {
+    display: grid;
+    grid-template-columns: 120px auto;
+    padding: 8px 0;
+    border-bottom: none;
+  }
+
+  .phrasebook-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #4b5563;
+    padding-right: 12px;
+  }
 }
 
 /* Карточка About под поиском */

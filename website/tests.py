@@ -1,5 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
+from phrasebook.models import PhrasebookPhrase, PhrasebookSection
+
 from .models import ProjectInfo
 
 
@@ -31,3 +33,23 @@ class AboutPageTests(TestCase):
         info = ProjectInfo.objects.create(content='Test project info')
         response = self.client.get(reverse('about'))
         self.assertContains(response, 'Test project info')
+
+
+class PhrasebookPageTests(TestCase):
+    def test_phrasebook_page_lists_sections_and_phrases(self):
+        section = PhrasebookSection.objects.create(name='Приветствия')
+        PhrasebookPhrase.objects.create(
+            section=section,
+            text='Салам алейкум',
+            translation='Здравствуйте',
+            translit='salam aleikum',
+        )
+
+        response = self.client.get(reverse('phrasebook'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('sections', response.context)
+        self.assertContains(response, 'Приветствия')
+        self.assertContains(response, 'Салам алейкум')
+        self.assertContains(response, 'Здравствуйте')
+        self.assertContains(response, 'salam aleikum')
