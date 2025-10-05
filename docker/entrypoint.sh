@@ -27,6 +27,8 @@ PY
   echo "PostgreSQL is available"
 fi
 
+python manage.py makemigrations
+
 echo "Applying database migrations"
 python manage.py migrate --noinput
 
