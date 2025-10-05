@@ -1,6 +1,49 @@
 {% extends "website/base.html" %}
-{% block title %}Names – Avaro-English{% endblock %}
+{% block title %}Avar Names – Avaro-English{% endblock %}
 {% block content %}
-<h1>Names</h1>
-<p>Эта страница имён будет реализована позже.</p>
+<h1 class="page-title">Avar Names</h1>
+<p class="page-intro">Подборка аварских имён с переводами и дополнительными примечаниями. Раздел удобно пополнять через админ-панель — создайте категорию, затем добавьте имена с переводом, транслитерацией и пометкой пола.</p>
+
+{% if categories %}
+  <div class="names-list">
+    {% for category in categories %}
+      <section class="names-section">
+        <h2 class="names-section__title">{{ category.name }}</h2>
+        {% if category.description %}
+          <p class="names-section__description">{{ category.description }}</p>
+        {% endif %}
+        {% with category.names.all as names %}
+          {% if names %}
+            <table class="names-table">
+              <thead>
+                <tr>
+                  <th scope="col">Имя</th>
+                  <th scope="col">Перевод</th>
+                  <th scope="col">Пол</th>
+                  <th scope="col">Транслитерация</th>
+                  <th scope="col">Примечание</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for name in names %}
+                  <tr>
+                    <td data-label="Имя">{{ name.name }}</td>
+                    <td data-label="Перевод">{{ name.translation }}</td>
+                    <td data-label="Пол"><span class="names-badge names-badge--{{ name.gender }}">{{ name.get_gender_display }}</span></td>
+                    <td data-label="Транслитерация">{{ name.translit|default:"—" }}</td>
+                    <td data-label="Примечание">{{ name.notes|default:"—" }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p class="names-empty">В этой категории пока нет имён.</p>
+          {% endif %}
+        {% endwith %}
+      </section>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="names-empty">Категории имён ещё не добавлены.</p>
+{% endif %}
 {% endblock %}
