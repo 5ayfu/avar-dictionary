@@ -79,11 +79,15 @@ def quick_translate(request):
     tgt = request.GET.get('to')
     if not (word and src and tgt):
         return Response({'error': 'Required: word, from, to'}, status=400)
-    word_obj = Word.objects.filter(text__iexact=word, language__code=src).first()
-    if not word_obj:
+    word_qs = Word.objects.filter(language__code=src)
+    if word:
+        word_qs = word_qs.filter(text__istartswith=word)
+    word_qs = word_qs.order_by('text')
+    if not word_qs.exists():
         return Response([])
     translations = Translation.objects.filter(
-        from_word=word_obj, to_word__language__code=tgt
-    ).select_related('to_word', 'to_word__language')
+        from_word__in=word_qs[:20],
+        to_word__language__code=tgt
+    ).select_related('to_word', 'to_word__language', 'from_word', 'from_word__language')
     serializer = TranslationSerializer(translations, many=True)
     return Response(serializer.data)
