@@ -30,6 +30,7 @@ def _env_bool(name: str, default: str = "False") -> bool:
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = _env_bool("DJANGO_DEBUG", "True")
+USE_WHITENOISE = _env_bool("DJANGO_USE_WHITENOISE", "True")
 
 _allowed_hosts = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
 ALLOWED_HOSTS = [host.strip() for host in _allowed_hosts if host.strip()]
@@ -61,6 +62,12 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+]
+
+if USE_WHITENOISE:
+    MIDDLEWARE.append('whitenoise.middleware.WhiteNoiseMiddleware')
+
+MIDDLEWARE += [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'website.middleware.TrackVisitMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -161,6 +168,21 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+staticfiles_backend = (
+    "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    if USE_WHITENOISE
+    else "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+)
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": staticfiles_backend,
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

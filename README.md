@@ -67,6 +67,28 @@ The Docker configuration uses PostgreSQL by default. The application will be ava
 
 A complete list of endpoints is available through Swagger UI (`/api/docs/`).
 
+## Serving static files with Nginx
+
+In production you will usually proxy requests through Nginx (or a similar web server) while it serves the collected static assets directly from disk or object storage. This project supports both approaches:
+
+- **Whitenoise** – enabled by default and useful for simple deployments where Gunicorn can serve static assets itself. Set `DJANGO_USE_WHITENOISE=False` in the environment to disable it.
+- **External web server** – when Whitenoise is disabled run `python manage.py collectstatic` (the provided Docker entrypoint already does this) and point Nginx at the resulting `staticfiles` directory.
+
+The repository includes a sample configuration at `docker/nginx/default.conf`. Copy it to your server (for example `/etc/nginx/conf.d/avar.conf`), adjust the `server_name` and update the upstream host if Gunicorn listens on another address or port. Make sure the `alias` path matches the directory where you publish the collected static files, e.g. `/var/www/avar/static/`.
+
+```nginx
+location /static/ {
+    alias /var/www/avar/static/;
+    access_log off;
+    add_header Cache-Control "public, max-age=31536000, immutable";
+}
+
+location / {
+    proxy_pass http://127.0.0.1:8000;
+    include proxy_params;
+}
+```
+
 ## Use cases
 
 The project can serve as:
