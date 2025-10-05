@@ -77,7 +77,9 @@ document.addEventListener('DOMContentLoaded', () => {
         list.className = 'results-list';
         data.forEach(t => {
             const li = document.createElement('li');
-            li.textContent = t.to_word.text + ' - ' + t.to_word.language.code;
+            const fromText = `${t.from_word.text} (${t.from_word.language.code})`;
+            const toText = `${t.to_word.text} (${t.to_word.language.code})`;
+            li.textContent = `${fromText} → ${toText}`;
             li.dataset.id = t.to_word.id;
             list.appendChild(li);
         });
