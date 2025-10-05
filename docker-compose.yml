@@ -14,7 +14,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
 
   web:
     build:
@@ -31,7 +31,7 @@ services:
       - .:/app
       - /var/www/avar/static:/app/staticfiles
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
 
 volumes:
   postgres_data:
