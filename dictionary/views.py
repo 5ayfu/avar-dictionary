@@ -85,9 +85,22 @@ def quick_translate(request):
     word_qs = word_qs.order_by('text')
     if not word_qs.exists():
         return Response([])
+
+    word_ids = list(word_qs.values_list('id', flat=True)[:20])
     translations = Translation.objects.filter(
-        from_word__in=word_qs[:20],
+        from_word_id__in=word_ids,
         to_word__language__code=tgt
     ).select_related('to_word', 'to_word__language', 'from_word', 'from_word__language')
-    serializer = TranslationSerializer(translations, many=True)
-    return Response(serializer.data)
+
+    reverse_translations = Translation.objects.filter(
+        to_word_id__in=word_ids,
+        from_word__language__code=tgt
+    ).select_related('to_word', 'to_word__language', 'from_word', 'from_word__language')
+
+    data = TranslationSerializer(translations, many=True).data
+    reverse_data = TranslationSerializer(reverse_translations, many=True).data
+    for item in reverse_data:
+        item['from_word'], item['to_word'] = item['to_word'], item['from_word']
+    data.extend(reverse_data)
+
+    return Response(data)
