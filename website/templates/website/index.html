@@ -3,42 +3,55 @@
 
 {% block content %}
 <section class="hero">
-  <h1 class="hero-title">Avaro-English Dictionary</h1>
+  <div class="hero-inner">
+    <span class="hero-kicker">Авар мацI • Heritage</span>
+    <h1 class="hero-title">Современный портал для изучения аварского языка</h1>
+    <p class="hero-lede">Соединяем предания Кавказских гор и цифровые технологии, чтобы сохранить живую речь Авар мацI и сделать её доступной всем, кто стремится понимать и говорить.</p>
 
-  <div class="card-grid">
-    <a href="{% url 'dictionary' %}" class="card">
-      <div class="card-icon">📖</div>
-      <div class="card-label">Dictionary</div>
-    </a>
-    <a href="{% url 'phrasebook' %}" class="card">
-      <div class="card-icon">💬</div>
-      <div class="card-label">Phrasebook</div>
-    </a>
-    <a href="{% url 'grammar' %}" class="card">
-      <div class="card-icon">📋</div>
-      <div class="card-label">Grammar</div>
-    </a>
-    <a href="{% url 'names' %}" class="card">
-      <div class="card-icon">👤</div>
-      <div class="card-label">Names</div>
-    </a>
+    <div class="hero-actions">
+      <form method="get" action="{% url 'dictionary' %}" class="hero-search">
+        <input type="search" name="q" placeholder="Найдите слово или корень..." required>
+        <button type="submit">Искать в словаре</button>
+      </form>
+      <div class="hero-footnote">
+        <span>🧭 Сейчас на сайте: {{ active_visitors }}</span>
+        <span>🌞 Уникальных за сегодня: {{ unique_visitors_today }}</span>
+        <span>⛰️ Наследие Дагестана в цифровом формате</span>
+      </div>
+    </div>
   </div>
+</section>
 
-  <div class="search-section">
-    <form method="get" action="{% url 'dictionary' %}">
-      <input type="search" name="q" class="search-input" placeholder="Найти..." required>
-      <button type="submit" class="search-btn">Искать</button>
-    </form>
-  </div>
-
+<div class="card-grid">
+  <a href="{% url 'dictionary' %}" class="card">
+    <div class="card-icon">📖</div>
+    <div class="card-label">Dictionary</div>
+  </a>
+  <a href="{% url 'phrasebook' %}" class="card">
+    <div class="card-icon">💬</div>
+    <div class="card-label">Phrasebook</div>
+  </a>
+  <a href="{% url 'grammar' %}" class="card">
+    <div class="card-icon">📚</div>
+    <div class="card-label">Grammar</div>
+  </a>
+  <a href="{% url 'names' %}" class="card">
+    <div class="card-icon">👥</div>
+    <div class="card-label">Names</div>
+  </a>
   <a href="{% url 'about' %}" class="card card-about">
     <div class="card-icon">ℹ️</div>
-    <div class="card-label">About</div>
+    <div class="card-label">О проекте и команде</div>
   </a>
+</div>
 
-  <div class="visitor-stats">
-    <p>Сейчас на сайте: {{ active_visitors }}</p>
-    <p>Уникальных за сегодня: {{ unique_visitors_today }}</p>
-  </div>
+<section class="culture-band">
+  <h2>Голос аварской культуры</h2>
+  <p>Мы вдохновляемся орнаментами Кубачи, мелодией баллад и энергией горных аулов, чтобы создать цифровое пространство, в котором язык звучит живо и современно.</p>
+  <ul class="culture-points">
+    <li><strong>Удобные инструменты.</strong> Быстрые словари, разговорник и грамматика помогают уверенно переходить между Авар мацI и английским.</li>
+    <li><strong>Сообщество.</strong> Делитесь знаниями, пополняйте базу слов, поддерживайте друг друга на пути изучения.</li>
+    <li><strong>Сохранение наследия.</strong> Каждый запрос и добавленное слово — вклад в будущее аварского языка.</li>
+  </ul>
 </section>
 {% endblock %}
