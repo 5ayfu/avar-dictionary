@@ -1,4 +1,6 @@
+from django.db.utils import OperationalError, ProgrammingError
 from django.utils import timezone
+
 from .models import Visit
 
 
@@ -11,20 +13,27 @@ class TrackVisitMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
 
-        session_key = request.session.session_key
-        if not session_key:
-            request.session.save()
+        try:
             session_key = request.session.session_key
+            if not session_key:
+                request.session.save()
+                session_key = request.session.session_key
+        except (OperationalError, ProgrammingError):
+            return response
 
         ip = request.META.get("REMOTE_ADDR", "0.0.0.0")
         now = timezone.now()
         today = now.date()
 
-        visit, created = Visit.objects.get_or_create(
-            session_key=session_key,
-            date=today,
-            defaults={"ip_address": ip, "last_activity": now},
-        )
+        try:
+            visit, created = Visit.objects.get_or_create(
+                session_key=session_key,
+                date=today,
+                defaults={"ip_address": ip, "last_activity": now},
+            )
+        except (OperationalError, ProgrammingError):
+            return response
+
         if not created:
             visit.last_activity = now
             visit.ip_address = ip

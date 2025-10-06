@@ -2,7 +2,7 @@
 {% block title %}Phrasebook – Avaro-English{% endblock %}
 {% block content %}
 <h1 class="page-title">Phrasebook</h1>
-<p class="page-intro">Подборка базовых фраз на аварском языке с переводами и, где доступно, транслитерацией.</p>
+<p class="page-intro">Browse essential Avar phrases with translations and transliteration notes where available.</p>
 
 {% if sections %}
   <div class="phrasebook-list">
@@ -14,29 +14,29 @@
           <table class="phrasebook-table">
             <thead>
               <tr>
-                <th scope="col">Аварский</th>
-                <th scope="col">Перевод</th>
-                <th scope="col">Транслитерация</th>
+                <th scope="col">Avar</th>
+                <th scope="col">Translation</th>
+                <th scope="col">Transliteration</th>
               </tr>
             </thead>
             <tbody>
               {% for phrase in phrases %}
                 <tr>
-                  <td data-label="Аварский">{{ phrase.text }}</td>
-                  <td data-label="Перевод">{{ phrase.translation }}</td>
-                  <td data-label="Транслитерация">{{ phrase.translit|default:"—" }}</td>
+                  <td data-label="Avar">{{ phrase.text }}</td>
+                  <td data-label="Translation">{{ phrase.translation }}</td>
+                  <td data-label="Transliteration">{{ phrase.translit|default:"—" }}</td>
                 </tr>
               {% endfor %}
             </tbody>
           </table>
         {% else %}
-          <p class="phrasebook-empty">В этом разделе пока нет фраз.</p>
+          <p class="phrasebook-empty">There are no phrases in this section yet.</p>
         {% endif %}
         {% endwith %}
       </section>
     {% endfor %}
   </div>
 {% else %}
-  <p class="phrasebook-empty">Разделы разговорника ещё не добавлены.</p>
+  <p class="phrasebook-empty">Phrasebook sections have not been added yet.</p>
 {% endif %}
 {% endblock %}
